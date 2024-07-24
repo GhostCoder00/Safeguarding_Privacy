@@ -1,0 +1,16 @@
+participant_id,MW,non MW,num of videos,set,gender,glasses,ID,test_fold_num
+p0,25,63,88,train,M,Y,201,1
+p1,13,42,55,train,F,N,202,2
+p10,10,76,86,train,M,N,203,0
+p11,22,46,68,train,F,Y,204,4
+p15,21,67,88,val,M,Y,205,0
+p21,15,73,88,train,M,N,206,3
+p22,2,86,88,test,F,N,207,5
+p3,0,72,72,train,F,Y,208,1
+p35,4,83,87,train,F,Y,209,2
+p40,5,83,88,train,M,Y,210,4
+p42,23,65,88,val,M,Y,211,0
+p49,1,87,88,test,M,N,212,5
+p5,28,55,83,train,F,N,213,3
+p50,12,53,65,test,F,N,214,5
+p8,25,63,88,train,F,N,215,1
