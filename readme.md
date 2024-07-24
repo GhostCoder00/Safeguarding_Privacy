@@ -7,7 +7,8 @@
 This repository is anonymized for review.
 
 ## 🖼️ Teaser
-![teaser_mw_small](https://github.com/GhostCoder00/Safeguarding-Privacy/assets/144137539/6f24c3da-ba0c-4f3f-a1ea-7e137b2fe186)
+![teaser_mw_small](https://github.com/user-attachments/assets/883aae74-f5fb-406e-a4e9-ef930e25b677)
+
 
 ## 💁 Usage
 1. Download data and carry out data preprocessing following the instructions below.
