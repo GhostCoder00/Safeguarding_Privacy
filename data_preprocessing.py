@@ -83,7 +83,9 @@ def get_data_dict(data_split_csv_path: str,
                 if emonet_features.shape[0] >= seq_length:
                     if 'colorado' in data_split_csv_path:
                         emonet_features = emonet_features[:seq_length]
-                    elif 'korea' in data_split_csv_path or 'daisee' in data_split_csv_path or 'engagenet' in data_split_csv_path:
+                    elif 'korea' in data_split_csv_path or 'daisee' in data_split_csv_path or 'engagenet' in data_split_csv_path or 'germany' in data_split_csv_path:
+                        if 'germany' in data_split_csv_path:
+                            emonet_features  = emonet_features[-300:]
                         for failed in failed_idx:
                             emonet_features = np.delete(emonet_features, (failed), axis=0)
                         downsample_idxs    = np.linspace(0, len(emonet_features) - 1, seq_length).astype(int)
@@ -107,7 +109,9 @@ def get_data_dict(data_split_csv_path: str,
                 if meglass_features.shape[0] >= seq_length:
                     if 'colorado' in data_split_csv_path:
                         meglass_features = meglass_features[:seq_length]
-                    elif 'korea' in data_split_csv_path or 'daisee' in data_split_csv_path or 'engagenet' in data_split_csv_path:
+                    elif 'korea' in data_split_csv_path or 'daisee' in data_split_csv_path or 'engagenet' in data_split_csv_path or 'germany' in data_split_csv_path:
+                        if 'germany' in data_split_csv_path:
+                            meglass_features  = meglass_features[-300:]
                         for failed in failed_idx:
                             meglass_features = np.delete(meglass_features, (failed), axis=0)
                         downsample_idxs    = np.linspace(0, len(meglass_features) - 1, seq_length).astype(int)
@@ -147,7 +151,9 @@ def get_data_dict(data_split_csv_path: str,
                 if openface_features.shape[0] >= seq_length:
                     if 'colorado' in data_split_csv_path:
                         openface_features = openface_features[:seq_length]
-                    elif 'korea' in data_split_csv_path or 'daisee' in data_split_csv_path or 'engagenet' in data_split_csv_path:
+                    elif 'korea' in data_split_csv_path or 'daisee' in data_split_csv_path or 'engagenet' in data_split_csv_path or 'germany' in data_split_csv_path:
+                        if 'germany' in data_split_csv_path:
+                            openface_features  = openface_features[-300:]
                         for failed in failed_idx:
                             openface_features = np.delete(openface_features, (failed), axis=0)
                         downsample_idxs   = np.linspace(0, len(openface_features) - 1, seq_length).astype(int)

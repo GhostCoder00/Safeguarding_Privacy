@@ -7,10 +7,6 @@ from models import LSTM, Dummy, model_train, model_eval
 from utils import Args, seed
 from client import get_clients
 
-# reuse
-data_dict = {}
-clients, train_clients, valid_clients, test_clients = [], [], [], []
-
 # GPU
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
@@ -43,7 +39,7 @@ def main_non_FL(args: object) -> None:
     model.to(device)
 
     # wandb init
-    wandb.init(project = args.project, name = args.name + ' ' + model.__class__.__name__, config = args.__dict__, anonymous = "allow")
+    wandb.init(entity = 'mind-wandering', project = args.project + '-server', name = args.name + ' ' + model.__class__.__name__, config = args.__dict__, anonymous = "allow")
     
     # performance before training
     wandb_log = {}

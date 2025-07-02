@@ -27,7 +27,7 @@ def main_FL(args: object) -> None:
     global_model = Dummy(args) if args.dummy else LSTM(args)
 
     # wandb init
-    wandb.init(project = args.project, name = args.name + ' ' + global_model.__class__.__name__, config = args.__dict__, anonymous = "allow")
+    wandb.init(entity = 'mind-wandering', project = args.project + '-server', name = args.name + ' ' + global_model.__class__.__name__, config = args.__dict__, anonymous = "allow")
     
     # federated learning
     federated_learning(args, train_clients, test_clients, global_model)

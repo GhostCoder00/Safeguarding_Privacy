@@ -32,7 +32,7 @@ def Args(FL: bool) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     
     # general parameters for both non-FL and FL
-    parser.add_argument('-p', '--project', type = str, default = 'korea', help = 'project name, from colorado, korea, daisee, engagenet')
+    parser.add_argument('-p', '--project', type = str, default = 'germany', help = 'project name, from colorado, korea, germany, daisee, engagenet')
     parser.add_argument('--name', type = str, default = 'name', help = 'wandb run name')
     parser.add_argument('-seed', '--seed', type = int, default = 0, help = 'random seed')
     parser.add_argument('-fl_csv', '--fl_csv', type = bool, default = True, action = argparse.BooleanOptionalAction, help = 'whether to use FL data split or non-FL data split')
@@ -62,6 +62,10 @@ def Args(FL: bool) -> argparse.Namespace:
     # dummy classifier
     parser.add_argument('-dummy', '--dummy', type = bool, default = False, action = argparse.BooleanOptionalAction, help = 'whether to use dummy classifier')
     
+    # ensemble bagging
+    parser.add_argument('-same', '--same_init', type = bool, default = False, action = argparse.BooleanOptionalAction, help = 'whether all bagging models are initialized with the same parameters')
+    parser.add_argument('-hard', '--hard_vote', type = bool, default = False, action = argparse.BooleanOptionalAction, help = 'whether to use hard vote or soft vote in ensemble bagging')
+    
     args = parser.parse_args()
     args.time = str(datetime.now())[5:-10]
     args.fed_agg = None
@@ -85,33 +89,41 @@ def Args(FL: bool) -> argparse.Namespace:
                         'data_split_csv_path_FL' : './datasets/colorado/dataset_summary_colorado_random_FL.csv',
                         'data_split_csv_path_nFL': './datasets/colorado/dataset_summary_colorado_random.csv'   , 
                         'data_csv_path'          : './datasets/colorado/fold_ids_reduced.csv'                  ,
-                        'emonet_path'            : '../colorado/emonet/'                     ,
-                        'openface_path'          : '../colorado/openface/'                   ,
-                        'meglass_path'           : '../colorado/emonet/'                     ,
+                        'emonet_path'            : '../data/colorado/emonet/'                     ,
+                        'openface_path'          : '../data/colorado/openface/'                   ,
+                        'meglass_path'           : '../data/colorado/emonet/'                     ,
                         },
             'korea'   : {
                         'data_split_csv_path_FL' : './datasets/korea/dataset_summary_korea_random_FL.csv',
                         'data_split_csv_path_nFL': './datasets/korea/dataset_summary_korea_random.csv'   ,
                         'data_csv_path'          : './datasets/korea/fold_ids.csv'                       ,
-                        'emonet_path'            : '../korea/emonet/'                  ,
-                        'openface_path'          : '../korea/openface/'                ,
-                        'meglass_path'           : '../korea/meglass/'                 ,
+                        'emonet_path'            : '../data/korea/emonet/'                  ,
+                        'openface_path'          : '../data/korea/openface/'                ,
+                        'meglass_path'           : '../data/korea/meglass/'                 ,
                         },
             'daisee'  : {
                         'data_split_csv_path_FL' : './datasets/daisee/dataset_summary_daisee_boredom.csv',
                         'data_split_csv_path_nFL': './datasets/daisee/dataset_summary_daisee_boredom.csv',
                         'data_csv_path'          : './datasets/daisee/fold_ids.csv'                      ,
-                        'emonet_path'            : '../daisee/emonet/'                 ,
-                        'openface_path'          : '../daisee/openface/'               ,
-                        'meglass_path'           : '../daisee/meglass/'                ,
+                        'emonet_path'            : '../data/daisee/emonet/'                 ,
+                        'openface_path'          : '../data/daisee/openface/'               ,
+                        'meglass_path'           : '../data/daisee/meglass/'                ,
                         },
             'engagenet':{
                         'data_split_csv_path_FL' : './datasets/engagenet/dataset_summary_engagenet.csv',
                         'data_split_csv_path_nFL': './datasets/engagenet/dataset_summary_engagenet.csv',
                         'data_csv_path'          : './datasets/engagenet/fold_ids.csv'                 ,
-                        'emonet_path'            : '../engagenet/emonet/'            ,
-                        'openface_path'          : '../engagenet/openface/'          ,
-                        'meglass_path'           : '../engagenet/meglass/'           ,
+                        'emonet_path'            : '../data/engagenet/emonet/'            ,
+                        'openface_path'          : '../data/engagenet/openface/'          ,
+                        'meglass_path'           : '../data/engagenet/meglass/'           ,
+                        },
+            'germany':{ 
+                        'data_split_csv_path_FL' : './datasets/germany/dataset_summary_germany_random_fl.csv'                 ,
+                        'data_split_csv_path_nFL': './datasets/germany/dataset_summary_germany_random_fl.csv'                    ,
+                        'data_csv_path'          : './datasets/germany/folds_id_reduced_buhler_et.csv' ,
+                        'emonet_path'            : '../data/germany/emonet_before_report_30s/' ,
+                        'openface_path'          : '../data/germany/openface_before_report_30s/' ,
+                        'meglass_path'           : '../data/germany/meglass/' ,
                         }
         }
 

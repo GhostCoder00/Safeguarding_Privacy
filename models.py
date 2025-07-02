@@ -313,6 +313,7 @@ def model_eval(model: torch.nn.Module, data_loader: torch.utils.data.DataLoader,
         metric_prefix (str): prefix for metric name.
         tSNE (bool): whether tSNE plot should be generated or not.
     """
+    
     model.eval()
     epoch_labels = []
     epoch_preds  = []
@@ -358,14 +359,21 @@ def model_eval(model: torch.nn.Module, data_loader: torch.utils.data.DataLoader,
     # mcc
     wandb_log[metric_prefix + 'mcc'] = matthews_corrcoef(epoch_labels, epoch_preds)
 
-    # precision
-    wandb_log[metric_prefix + 'prec'] = precision_score(epoch_labels, epoch_preds, zero_division = 0, average = 'weighted')
+    #precision
+    wandb_log[metric_prefix + 'prec_weighted'] = precision_score(epoch_labels, epoch_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'prec_micro'] = precision_score(epoch_labels, epoch_preds, zero_division = 0, average = 'micro')
+    wandb_log[metric_prefix + 'prec_binary'] = precision_score(epoch_labels, epoch_preds, zero_division = 0, average = 'binary')
     
     # recall
-    wandb_log[metric_prefix + 'recl'] = recall_score(epoch_labels, epoch_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'recl_weighted'] = recall_score(epoch_labels, epoch_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'recl_micro'] = recall_score(epoch_labels, epoch_preds, zero_division = 0, average = 'micro')
+    wandb_log[metric_prefix + 'recl_binary'] = recall_score(epoch_labels, epoch_preds, zero_division = 0, average = 'binary')
     
     # f1 score
-    wandb_log[metric_prefix + 'f1'] = f1_score(epoch_labels, epoch_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'f1_weighted'] = f1_score(epoch_labels, epoch_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'f1_binary'] = f1_score(epoch_labels, epoch_preds, zero_division = 0, average = 'binary')
+    wandb_log[metric_prefix + 'f1_micro'] = f1_score(epoch_labels, epoch_preds, zero_division = 0, average = 'micro')
+
     
     # f1 score for users with/without glasses
     if False: #'train' not in metric_prefix  and 'colorado' not in metric_prefix and 'engageNet' not in metric_prefix and 'daisee' not in metric_prefix and 'korea' not in metric_prefix:
@@ -375,8 +383,26 @@ def model_eval(model: torch.nn.Module, data_loader: torch.utils.data.DataLoader,
         epoch_labels_g  = epoch_labels[g]
         epoch_preds_ng  = epoch_preds [ng]
         epoch_labels_ng = epoch_labels[ng] 
-        wandb_log[metric_prefix + 'g/f1' ] = f1_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'weighted')
-        wandb_log[metric_prefix + 'ng/f1'] = f1_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'g/f1_w' ] = f1_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'ng/f1_w'] = f1_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'g/f1_b' ] = f1_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'binary')
+        wandb_log[metric_prefix + 'ng/f1_b'] = f1_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'binary')
+        wandb_log[metric_prefix + 'g/f1_m' ] = f1_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'micro')
+        wandb_log[metric_prefix + 'ng/f1_m'] = f1_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'micro')
+        
+        wandb_log[metric_prefix + 'g/rec_w' ] = recall_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'ng/rec_w'] = recall_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'g/rec_b' ] = recall_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'binary')
+        wandb_log[metric_prefix + 'ng/rec_b'] = recall_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'binary')
+        wandb_log[metric_prefix + 'g/rec_m' ] = recall_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'micro')
+        wandb_log[metric_prefix + 'ng/rec_m'] = recall_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'micro')
+        
+        wandb_log[metric_prefix + 'g/prec_w' ] = precision_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'ng/prec_w'] = precision_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'weighted')
+        wandb_log[metric_prefix + 'g/prec_b' ] = precision_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'binary')
+        wandb_log[metric_prefix + 'ng/prec_b'] = precision_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'binary')
+        wandb_log[metric_prefix + 'g/prec_m' ] = precision_score(epoch_labels_g , epoch_preds_g , zero_division = 0, average = 'micro')
+        wandb_log[metric_prefix + 'ng/prec_m'] = precision_score(epoch_labels_ng, epoch_preds_ng, zero_division = 0, average = 'micro')
 
     #t-SNE
     if tSNE:
@@ -387,3 +413,77 @@ def model_eval(model: torch.nn.Module, data_loader: torch.utils.data.DataLoader,
             tsne_visualization(epoch_feats_array, epoch_labels, metric_prefix, wandb_log, n_components = 2)
         except Exception:
             print('t-SNE failed!')
+
+def model_eval_bagging(models: list[torch.nn.Module], data_loader: torch.utils.data.DataLoader, wandb_log: dict, hard_vote: bool, metric_prefix: str = 'prefix/') -> None:
+    """
+    Evaludate the performance of a list of models (ensemble bagging with majority vote).
+
+    Arguments:
+        models (list[torch.nn.Module]): pytorch models.
+        data_loader (torch.utils.data.DataLoader): pytorch data loader.
+        wandb_log (dict): wandb log dictionary, with metric name as key and metric value as value.
+        hard_vote (bool): whether to use hard voting (rounding before averaging) or soft voting (simply averaging).
+        metric_prefix (str): prefix for metric name.
+    """
+    
+    all_labels = None
+    all_preds = []
+    with torch.no_grad():
+        for m in models:
+            m.to(device)
+            epoch_labels, epoch_preds = [], []
+            
+            for batch_id, (x, y, _, _, _) in enumerate(data_loader):
+                    x = x.to(device)
+                    y = y.to(device)
+                    p, _ = m(x, None, None)
+                    
+                    epoch_labels.append(y)
+                    epoch_preds .append(p)
+                    
+            m.to('cpu')
+            
+            all_labels = torch.cat(epoch_labels).detach().to('cpu')
+            epoch_preds = torch.cat(epoch_preds).detach().to('cpu')
+            
+            # vote strategy
+            if hard_vote:
+                epoch_preds = epoch_preds.round()
+                
+            all_preds.append(epoch_preds)
+            
+    # in case of binary classification, majority vote is equivalent to averaging
+    all_preds = sum(all_preds) / len(all_preds)
+    
+    # loss
+    wandb_log[metric_prefix + 'loss'] = F.binary_cross_entropy(all_preds, all_labels, weight = weight_to_vec(models[0].imba_weight, all_labels))
+    
+    # ROC AUC not defined if there is only one class in truth labels
+    try:
+        wandb_log[metric_prefix + 'auc'] = roc_auc_score(all_labels, all_preds, average = 'weighted')
+    except ValueError:
+        wandb_log[metric_prefix + 'auc'] = 0
+    
+    # get class predictions
+    all_preds = all_preds.round()
+
+    # accuracy
+    wandb_log[metric_prefix + 'accu'] = accuracy_score(all_labels, all_preds)
+
+    # mcc
+    wandb_log[metric_prefix + 'mcc'] = matthews_corrcoef(all_labels, all_preds)
+
+    #precision
+    wandb_log[metric_prefix + 'prec_weighted'] = precision_score(all_labels, all_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'prec_micro'] = precision_score(all_labels, all_preds, zero_division = 0, average = 'micro')
+    wandb_log[metric_prefix + 'prec_binary'] = precision_score(all_labels, all_preds, zero_division = 0, average = 'binary')
+    
+    # recall
+    wandb_log[metric_prefix + 'recl_weighted'] = recall_score(all_labels, all_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'recl_micro'] = recall_score(all_labels, all_preds, zero_division = 0, average = 'micro')
+    wandb_log[metric_prefix + 'recl_binary'] = recall_score(all_labels, all_preds, zero_division = 0, average = 'binary')
+    
+    # f1 score
+    wandb_log[metric_prefix + 'f1_weighted'] = f1_score(all_labels, all_preds, zero_division = 0, average = 'weighted')
+    wandb_log[metric_prefix + 'f1_micro'] = f1_score(all_labels, all_preds, zero_division = 0, average = 'micro')
+    wandb_log[metric_prefix + 'f1_binary'] = f1_score(all_labels, all_preds, zero_division = 0, average = 'binary')

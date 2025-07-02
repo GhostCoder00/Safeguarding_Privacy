@@ -1,14 +1,12 @@
+# Digital Self-Control
 
-# Safeguarding Privacy
-
-> **[International Journal of Artificial Intelligence in Education 2024] Safeguarding Privacy: Privacy-Preserving Detection of Mind Wandering and Disengagement Using Federated Learning in Online Education**.
-> Safeguarding Privacy a video-based cognitive distraction detection system based on facial expressions and gaze features, which could aid learners in keeping their attention. It addresses the challenges associated with eyeglass wearers and improves the model performance with additional features containing information about the presence of glasses. It utilizes federated learning to safeguards users' data privacy. 
+> **[UMAP 2024] Digital Self-Control: A Solution for Enhancing Self-Regulation in Online Learning**.
+> Digital Self-Control a video-based cognitive distraction detection system based on facial expressions and gaze features, which could aid learners in keeping their attention. It addresses the challenges associated with eyeglass wearers and improves the model performance with additional features containing information about the presence of glasses. It utilizes federated learning to safeguards users' data privacy. 
 
 This repository is anonymized for review.
 
 ## 🖼️ Teaser
-![teaser_mw_small](https://github.com/user-attachments/assets/883aae74-f5fb-406e-a4e9-ef930e25b677)
-
+<img src="https://github.com/wmd0701/Digital-Self-Control/assets/34072813/6baafcb5-138e-4006-8b88-984842a052b5" width="700">
 
 ## 💁 Usage
 1. Download data and carry out data preprocessing following the instructions below.
